@@ -1,0 +1,88 @@
+﻿@model ArcheryShop.Models.Product
+
+@{
+    ViewData["Title"] = Model.Model;
+}
+
+<div class="container mt-5 mb-5">
+    <div class="row mb-4">
+        <div class="col">
+            <a asp-action="Index" class="text-decoration-none text-muted small fw-bold">
+                &larr; BACK TO SHOP
+            </a>
+        </div>
+    </div>
+
+    <div class="row g-0 shadow-sm bg-white rounded overflow-hidden border">
+        <div class="col-md-7 details-image-container border-end">
+            <img src="@Model.ImageLink" class="details-product-image" alt="@Model.Model">
+        </div>
+
+        <div class="col-md-5 p-5 d-flex flex-column">
+            <div class="mb-auto">
+                <p class="brand-text mb-2">@Model.Brand?.Name</p>
+                <h1 class="display-6 fw-bold mb-3">@Model.Model</h1>
+                
+                <div class="mb-4">
+                    @if (Model.Categories != null && Model.Categories.Any())
+                    {
+                        foreach (var cat in Model.Categories)
+                        {
+                            <span class="badge bg-dark text-uppercase p-2 me-1">@cat.Name</span>
+                        }
+                    }
+
+                    @*Stock Status*@
+                    @if (Model.Quantity > 0)
+                    {
+                        <span class="badge bg-success text-uppercase p-2">In Stock (@Model.Quantity)</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-danger text-uppercase p-2">Out of Stock</span>
+                    }
+                    
+                    <span class="text-muted small ms-2">Product ID: #@Model.ProductId</span>
+                </div>
+
+                <h5 class="fw-bold mt-4">Product Description</h5>
+                <div class="text-secondary">
+                    @if (!string.IsNullOrEmpty(Model.Description))
+                    {
+                        @Html.Raw(Model.Description)
+                    }
+                    else
+                    {
+                        <p>No description available for this @Model.Model.</p>
+                    }
+                </div>
+            </div>
+
+            <div class="border-top pt-4 mt-5">
+                <div class="row align-items-center">
+                    <div class="col">
+                        <p class="text-muted small mb-0">Retail Price</p>
+                        <h2 class="price-display mb-0">@Model.Price.ToString("C")</h2>
+                    </div>
+                    <div class="col-auto">
+                        @* Add to cart button *@
+                        @if (Model.Quantity > 0)
+                        {
+                            <a asp-action="AddToCart" asp-route-id="@Model.ProductId" class="btn cart-btn btn-lg px-4 py-3">
+                                <span class="fw-bold">ADD TO CART</span>
+                                <img src="//assets.streamlinehq.com/image/private/w_300,h_300,ar_1/f_auto/v1/icons/all-3/shopping-cart-9xhllmo2cb79djc9j7b5kb.png/shopping-cart-pe974q2wd8bzu5cueg3qr.png?_a=DATAiZAAZAA0"
+                                     class="details-cart-icon">
+                            </a>
+                        }
+                        else
+                        {
+                            <button class="btn btn-secondary btn-lg px-4 py-3" disabled>
+                                <span class="fw-bold text-white">OUT OF STOCK</span>
+                            </button>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

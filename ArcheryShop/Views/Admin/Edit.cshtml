@@ -1,0 +1,67 @@
+﻿@model ArcheryShop.Models.Product
+
+@{
+    ViewData["Title"] = "Edit An Existing Product";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-primary text-white p-3">
+                    <h4 class="mb-0">Edit Product: @Model.Model</h4>
+                </div>
+                <div class="card-body p-4">
+                    <form asp-action="Edit" method="post">
+                        <input type="hidden" asp-for="ProductId" />
+                        <div class="mb-3">
+                            <label asp-for="BrandId" class="form-label fw-bold small text-uppercase text-muted">Brand</label>
+                            <select asp-for="BrandId" class="form-select" asp-items="ViewBag.BrandId"></select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Model" class="form-label fw-bold small text-uppercase text-muted">Model Name</label>
+                            <input asp-for="Model" class="form-control" />
+                        </div>
+
+                        <div class="row">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label asp-for="Price" class="form-label fw-bold small text-uppercase text-muted">Price ($)</label>
+                                    <input asp-for="Price" class="form-control" type="number" step="0.01" />
+                                    <span asp-validation-for="Price" class="text-danger small"></span>
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label asp-for="Quantity" class="form-label fw-bold small text-uppercase text-muted">Stock Quantity</label>
+                                    <input asp-for="Quantity" class="form-control" type="number" />
+                                    <span asp-validation-for="Quantity" class="text-danger small"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label asp-for="ImageLink" class="form-label fw-bold small text-uppercase text-muted">Image URL</label>
+                            <input asp-for="ImageLink" class="form-control" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold small text-uppercase text-muted">Categories</label>
+                            <select name="selectedCategoryIds" class="form-select" multiple asp-items="ViewBag.Categories" style="height: 100px;"></select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Description" class="form-label fw-bold small text-uppercase text-muted">Description (HTML)</label>
+                            <textarea asp-for="Description" class="form-control" rows="5"></textarea>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary fw-bold">UPDATE PRODUCT</button>
+                            <a asp-action="Index" class="btn btn-outline-secondary">BACK TO LIST</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

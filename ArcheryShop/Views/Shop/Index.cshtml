@@ -1,0 +1,62 @@
+﻿@model IEnumerable<ArcheryShop.Models.Product>
+
+<div class="container mt-5">
+    <div class="row mb-5 justify-content-center">
+        <div class="col-auto">
+            <form method="get" asp-action="Index" class="d-flex gap-2 justify-content-center">
+                <input type="text" name="searchTerm" class="search-input" placeholder="Search" value="@ViewBag.SearchTerm">
+            </form>
+        </div>
+    </div>
+
+    <table style="width: 100%; border-collapse: separate; border-spacing: 15px; border: none;">
+            @foreach (var chunk in Model.Chunk(4))
+            {
+                <tr>
+                    @foreach (var item in chunk)
+                    {
+                        <td style="width: 25%; vertical-align: top; border: none;">
+                            <div class="card product-card h-100 shadow-sm">
+                                <a asp-action="Details" asp-route-id="@item.ProductId" class="product-main-link">
+                                    <img src="@item.ImageLink" class="product-image" alt="@item.Model">
+                                </a>
+
+                                <div class="card-body d-flex flex-column">
+                                    <a asp-action="Details" asp-route-id="@item.ProductId" class="product-main-link">
+                                        <p class="brand-text">@item.Brand?.Name</p>
+                                        <h5 class="card-title">@item.Model</h5>
+                                    </a>
+
+                                    <div class="product-actions mt-auto">
+                                        <span class="price-display">@item.Price.ToString("C")</span>
+                                        
+                                        @if (item.Quantity > 0)
+                                        {
+                                            <a asp-controller="Cart" asp-action="AddToCart" asp-route-id="@item.ProductId" class="btn cart-btn">
+                                                <img src="//assets.streamlinehq.com/image/private/w_300,h_300,ar_1/f_auto/v1/icons/all-3/shopping-cart-9xhllmo2cb79djc9j7b5kb.png/shopping-cart-pe974q2wd8bzu5cueg3qr.png?_a=DATAiZAAZAA0"
+                                                     class="cart-icon" alt="Add to Cart">
+                                            </a>
+                                        }
+                                        else
+                                        {
+                                            <button class="btn cart-btn border-0" disabled style="cursor: not-allowed;">
+                                                <img src="//assets.streamlinehq.com/image/private/w_300,h_300,ar_1/f_auto/v1/icons/all-3/shopping-cart-9xhllmo2cb79djc9j7b5kb.png/shopping-cart-pe974q2wd8bzu5cueg3qr.png?_a=DATAiZAAZAA0"
+                                                     class="cart-icon"
+                                                     style="filter: grayscale(100%); opacity: 0.3;"
+                                                     alt="Out of Stock">
+                                            </button>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    }
+
+                    @for (int i = 0; i < (4 - chunk.Length); i++)
+                    {
+                        <td style="width: 25%; border: none;"></td>
+                    }
+                </tr>
+            }
+    </table>
+</div>
